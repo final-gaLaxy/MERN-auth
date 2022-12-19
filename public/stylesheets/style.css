@@ -1,0 +1,23 @@
+html {
+  background-color: #121212;
+  color: #eee;
+  height: 90vh;
+}
+
+body {
+  height: 100%;
+  padding: 10px;
+  font: 14px Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+@media (prefers-color-scheme: light) {
+  html {
+    background-color: #fff;
+    color: #222;
+  }
+}
