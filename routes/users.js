@@ -6,16 +6,26 @@ var User = require('../models/Users');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
+  if (req.isAuthenticated()) { return res.render('users', { username: req.user.username }); }
+  res.redirect('/users/login');
 });
 
 router.get('/signup', (req, res, next) => {
+  if (req.isAuthenticated()) { return res.redirect('/users'); }
   res.render('signup', { title: "Signup", error: false });
 });
 
 router.get('/login', (req, res, next) => {
+  if (req.isAuthenticated()) { return res.redirect('/users'); }
   res.render('login', { title: "Login", error: false });
 });
+
+router.get('/logout', (req, res, next) => {
+  req.logOut((err) => {
+    if (err) { return next(err); }
+    res.redirect('/users/login');
+  })
+})
 
 router.post('/login', function (req, res, next) {
   passport.authenticate('signin', (err, user, info) => {
@@ -40,14 +50,9 @@ router.post('/login', function (req, res, next) {
           error: err
         });
       }
-      return res.render('users', { username: user.username });
+      return res.redirect('/users');
     })
   })(req, res, next);
-  // if (login(username, req.body.password)) {
-  //   res.render('users', {username: username});
-  // } else {
-  //   res.render('login', {title: "Login", error: true});
-  // }
 });
 
 router.post('/signup', function (req, res, next) {
@@ -89,5 +94,6 @@ router.post('/signup', function (req, res, next) {
       });
     });
 });
+
 
 module.exports = router;

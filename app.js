@@ -1,12 +1,14 @@
 var createError = require('http-errors');
 var express = require('express');
 var session = require('express-session');
-var passport = require('./passport/setup');
 var path = require('path');
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var MongoStore = require('connect-mongo')(session);
+var mongoose = require('mongoose');
 
+var passport = require('./passport/setup');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -22,15 +24,16 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
   secret: 'Very Secret Indeed',
   resave: false,
-  saveUninitialized: false,
-  cookie: { secure: true }
+  saveUninitialized: true,
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
 app.use(passport.initialize());
