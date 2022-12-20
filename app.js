@@ -1,15 +1,20 @@
 var createError = require('http-errors');
 var express = require('express');
+var session = require('express-session');
+var passport = require('./passport/setup');
 var path = require('path');
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var authRouter = require('./routes/auth');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+// connect to db
+var db = require('./db');
+db.connect();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,6 +25,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+  secret: 'Very Secret Indeed',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: true }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

@@ -8,7 +8,14 @@ block content
     if error
       #error
         span
-          p.text-danger Invalid email, password, or username
+          if error.message
+            p.text-danger= error.message
+          else
+            p.text-danger Invalid email, password, or username
+    if success
+      #success
+        span
+          p.text-success Successfully created account
 
     div.login
       input#email(type="email", name="email", placeholder="Email" required)

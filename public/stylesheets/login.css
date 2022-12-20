@@ -129,13 +129,19 @@ a {
     color: #CF6679;
 }
 
-#error {
+.text-success {
+    color: #03DAC6;
+}
+
+#error,
+#success {
     font-size: 16pt;
     /* margin-top: 1rem; */
     height: 16pt;
 }
 
-#error p {
+#error p,
+#success p {
     margin: 0;
 }
 
