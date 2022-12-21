@@ -6,3 +6,6 @@ block append head
 block content
   div.welcome
     p Welcome #{username}!
+
+  form(action="/users/logout")
+    input(type="submit", value="Sign Out")
