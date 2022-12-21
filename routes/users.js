@@ -50,6 +50,11 @@ router.post('/login', function (req, res, next) {
           error: err
         });
       }
+      if (req.body.remember) {
+        var days = 30 * 24 * 60 * 60 * 1000;
+        req.session.cookie.expires = new Date(Date.now() + days);
+        req.session.cookie.maxAge = days;
+      }
       return res.redirect('/users');
     })
   })(req, res, next);
