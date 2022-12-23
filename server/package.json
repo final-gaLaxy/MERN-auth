@@ -1,6 +1,6 @@
 {
-  "name": "user-authentication",
-  "version": "0.0.0",
+  "name": "server",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
