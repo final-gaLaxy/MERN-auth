@@ -6,10 +6,10 @@
     "clean": "npm run clean:client && npm run clean:server",
     "clean:client": "shx rm -rf ./client/build",
     "clean:server": "shx rm -rf ./server/build",
-    "client:dev": "cd client && npm start",
-    "client:build": "cd client && npm run build && shx cp -r build ../server/build/",
-    "server:dev": "cd server && npm run dev",
-    "server:prod": "cd server && npm run prod",
+    "client:dev": "npm start --workspace=client",
+    "client:build": "npm run build --workspace=client && shx cp -r ./client/build ./server/build/",
+    "server:dev": "npm run dev --workspace=server",
+    "server:prod": "npm run prod --workspace=server",
     "dev": "concurrently \"npm run client:dev\" \"npm run server:dev\"",
     "prod": "npm run clean && npm run client:build && npm run server:prod"
   },
@@ -19,5 +19,6 @@
     "concurrently": "^7.6.0",
     "nodemon": "^2.0.20",
     "shx": "^0.3.4"
-  }
+  },
+  "workspaces": ["client", "server"]
 }
