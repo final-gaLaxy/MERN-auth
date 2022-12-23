@@ -67,7 +67,7 @@ class LoginForm extends Component {
                             </div>
                         </div>
                         <div className="container">
-                            <a href="/">Forgot Password?</a>
+                            <a href="#">Forgot Password?</a>
                         </div>
                     </div>
                     <div id="create">
