@@ -3,15 +3,17 @@ import axios from 'axios';
 
 import { Routes, Route } from 'react-router-dom';
 
+import Loading from './components/Loading';
+
 const SignupForm = React.lazy(() => import('./components/SignupForm'));
 const LoginForm = React.lazy(() => import('./components/LoginForm'));
 const Dashboard = React.lazy(() => import('./components/Dashboard'));
-
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
+      loading: true,
       loggedIn: false,
       user: null
     }
@@ -20,25 +22,28 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('/auth/user')
-      .then(res => {
-        if (!!res.data.user) {
-          this.setState({
-            loggedIn: true,
-            user: res.data.user
-          });
-        } else {
-          this.setState({
-            loggedIn: false,
-            user: null
-          });
-        }
+    axios.get('/api/user')
+    .then(res => {
+      if (!!res.data.user) {
+        this.setState({
+          loggedIn: true,
+          user: res.data.user
+        });
+      } else {
+        this.setState({
+          loggedIn: false,
+          user: null
+        });
+      }
+      this.setState({
+        loading: false
       });
+    });
   }
 
   _logout() {
     axios
-      .post('/auth/logout')
+      .post('/api/logout')
       .then(response => {
         if (response.status === 200) {
           this.setState({
@@ -51,7 +56,7 @@ class App extends Component {
 
   _login(username, password, rememberMe) {
     axios
-      .post('/auth/login', {
+      .post('/api/login', {
         username: username,
         password: password,
         remember: rememberMe
@@ -69,26 +74,29 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Routes>
-          <Route
-            exact
-            path="/"
-            element={<Dashboard user={this.state.user} _logout={this._logout}/>}
-          />
-          <Route
-            exact
-            path="/signup"
-            element={<SignupForm user={this.state.user}/>}
-          />
-          <Route
-            exact
-            path="/login"
-            element={<LoginForm user={this.state.user} _login={this._login}/>}
-          />
-        </Routes>
+          {this.state.loading ? (<Loading />) : (
+            <Routes>
+              <Route
+                exact
+                path="/"
+                element={<Dashboard user={this.state.user} _logout={this._logout} />}
+              />
+              <Route
+                exact
+                path="/signup"
+                element={<SignupForm user={this.state.user}/>}
+              />
+              <Route
+                exact
+                path="/login"
+                element={<LoginForm user={this.state.user} _login={this._login}/>}
+              />
+            </Routes>
+          )}
       </div>
     );
   }
 }
+
 
 export default App;

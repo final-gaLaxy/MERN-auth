@@ -57,7 +57,7 @@ class LoginForm extends Component {
                             onChange={this.handleChange}
                             required
                         />
-                        <input onClick={this.handleSubmit} type="submit" value="Signup" />
+                        <input onClick={this.handleSubmit} type="submit" value="Login" />
                     </div>
                     <div id="options">
                         <div className="container">
