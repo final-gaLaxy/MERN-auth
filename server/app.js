@@ -8,27 +8,16 @@ var logger = require('morgan');
 var MongoStore = require('connect-mongo')(session);
 var mongoose = require('mongoose');
 
-var passport = require('./passport/setup');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var passport = require('./passport');
+var db = require('./db');
 
 var app = express();
 
-// connect to db
-var db = require('./db');
-db.connect();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
-app.use(logger('dev'));
+if (process.env.DEBUG.startsWith('user-authentication:')) {
+  app.use(logger('dev'));
+}
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(session({
   secret: 'Very Secret Indeed',
   resave: false,
@@ -40,8 +29,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/auth', require('./auth'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -56,7 +44,6 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
 });
 
 module.exports = app;

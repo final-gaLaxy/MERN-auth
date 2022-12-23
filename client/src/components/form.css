@@ -1,0 +1,148 @@
+.form h1 {
+    font-size: 2em;
+    margin: 0.25em;
+}
+
+.form a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 5%);
+}
+
+form.form {
+    min-width: 70%;
+    max-width: 80%;
+    min-height: 60%;
+    height: max-content;
+    /* aspect-ratio: 0.7; */
+    padding: 0.5em;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 5%);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.form #details {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    justify-self: flex-end;
+}
+
+form.form input {
+    width: 70%;
+    height: 1.2em;
+    margin: 1em 0;
+    padding: .4em;
+    border-radius: 0.5em;
+    border-color: rgba(0, 0, 0, 15%);
+    background-color: rgba(255, 255, 255, 5%);
+    color: lightgrey;
+    font-size: 1.4em;
+    text-align: center;
+}
+
+form.form input[type=submit] {
+    width: 55%;
+    height: 2.3em;
+    margin-bottom: 1em;
+    border-color: rgb(145, 238, 145);
+    background-color: rgba(145, 238, 145, 5%);
+    cursor: pointer;
+}
+
+.form #create {
+    font-size: 1.2em;
+    margin-bottom: .75em;
+}
+
+.form #options {
+    width: 100%;
+    margin: 0.5em 0;
+    display:  flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.25em;
+}
+
+.form #options > * {
+    flex-grow: 1;
+    padding: 10px;
+}
+
+.form #options input#remember {
+    background-color: lightgreen;
+    width: 1em;
+    margin: 10px;
+}
+
+.form .checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form .checkbox input {
+    padding: 0;
+    margin-bottom: 0;
+    display: none;
+    cursor: pointer;
+}
+
+.form .checkbox label {
+    position: relative;
+    cursor: pointer;
+}
+
+.form .checkbox label::before {
+    content: "";
+    background-color: rgba(144, 238, 144, 20%);
+    border: 2px solid lightgreen;
+    padding: 8px;
+    display: inline-block;
+    position: relative;
+    vertical-align: -13%;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.form .checkbox input:checked+label::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 4px;
+    left: 6px;
+    width: 6px;
+    height: 14px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+
+.form #create p {
+    margin-top: 0;
+}
+
+.form #switchForm {
+    color: rgb(145, 238, 145)
+}
+
+@media (min-width: 768px) {
+    form.form {
+        min-width: 50%;
+    }
+
+    .form #options {
+        flex-direction: row;
+    }
+}
+
+@media (min-width: 1200px) {
+    form.form {
+        min-width: 35%;
+    }
+}
