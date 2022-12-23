@@ -13,9 +13,14 @@ var db = require('./db');
 
 var app = express();
 
+var prod;
 if (process.env.DEBUG.startsWith('user-authentication:')) {
-  app.use(logger('dev'));
+  prod = false;
+} else {
+  prod = true;
 }
+if (!prod) app.use(logger('dev'));
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(session({
@@ -29,7 +34,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/auth', require('./auth'));
+app.use('/api', require('./auth'));
+if (prod) {
+  app.use(express.static(path.join(__dirname, 'build')));
+  app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  })
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
